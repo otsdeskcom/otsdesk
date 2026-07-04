@@ -1,15 +1,14 @@
-
 'use client';
 import { useState } from 'react';
- 
+
 const API = process.env.NEXT_PUBLIC_API_URL || '';
- 
+
 export default function LoginPage() {
   const [view, setView] = useState('login'); // login | signup | otp | forgot | newpass
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState('');
   const [msg, setMsg] = useState('');
- 
+
   // form fields
   const [f, setF] = useState({
     email: '', password: '', firstName: '', lastName: '', phone: '',
@@ -18,7 +17,7 @@ export default function LoginPage() {
   });
   const [resetTicket, setResetTicket] = useState('');
   const set = (k, v) => setF(p => ({ ...p, [k]: v }));
- 
+
   async function api(path, body) {
     setErr(''); setLoading(true);
     try {
@@ -32,7 +31,7 @@ export default function LoginPage() {
       return data;
     } catch (e) { setLoading(false); setErr('Network error — please try again'); return null; }
   }
- 
+
   async function doLogin() {
     const d = await api('login', { email: f.email, password: f.password });
     if (d?.accessToken) { saveTokens(d); window.location.href = '/dashboard'; }
@@ -74,7 +73,7 @@ export default function LoginPage() {
     const arr = [...f.otp]; arr[i] = v; set('otp', arr);
     if (v && i < 5) document.getElementById(`otp${i + 1}`)?.focus();
   }
- 
+
   return (
     <div style={S.wrap}>
       {/* LEFT brand panel */}
@@ -96,7 +95,7 @@ export default function LoginPage() {
         </div>
         <div style={{ color: '#5B7290', fontSize: 12 }}>© 2026 OTS Desk · HZ Creations Ltd</div>
       </div>
- 
+
       {/* RIGHT form panel */}
       <div style={S.right}>
         <div style={{ width: 360, maxWidth: '100%' }}>
@@ -112,7 +111,7 @@ export default function LoginPage() {
               <p style={S.alt}>New to OTS Desk? <a style={S.link} onClick={() => { setErr(''); setView('signup'); }}>Create an account</a></p>
             </>
           )}
- 
+
           {view === 'signup' && (
             <>
               <h2 style={S.h2}>Create your account</h2>
@@ -142,7 +141,7 @@ export default function LoginPage() {
               <p style={S.alt}>Already have an account? <a style={S.link} onClick={() => { setErr(''); setView('login'); }}>Sign in</a></p>
             </>
           )}
- 
+
           {view === 'otp' && (
             <>
               <h2 style={S.h2}>Verify your email</h2>
@@ -158,7 +157,7 @@ export default function LoginPage() {
               <p style={S.alt}><a style={S.link} onClick={() => setView('login')}>Back to sign in</a></p>
             </>
           )}
- 
+
           {view === 'forgot' && (
             <>
               <h2 style={S.h2}>Reset password</h2>
@@ -169,7 +168,7 @@ export default function LoginPage() {
               <p style={S.alt}><a style={S.link} onClick={() => setView('login')}>Back to sign in</a></p>
             </>
           )}
- 
+
           {view === 'newpass' && (
             <>
               <h2 style={S.h2}>Set new password</h2>
@@ -185,12 +184,12 @@ export default function LoginPage() {
     </div>
   );
 }
- 
+
 function Logo() { return <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" /></svg>; }
 function Field({ label, children }) { return <div style={{ marginBottom: 14 }}><label style={S.label}>{label}</label>{children}</div>; }
 function Btn({ onClick, loading, children }) { return <button style={{ ...S.btn, opacity: loading ? .6 : 1 }} onClick={onClick} disabled={loading}>{loading ? 'Please wait…' : children}</button>; }
 function Err({ e }) { return e ? <p style={{ color: 'var(--red)', fontSize: 12.5, marginTop: 8 }}>{e}</p> : null; }
- 
+
 const S = {
   wrap: { minHeight: '100vh', display: 'flex' },
   left: { flex: 1, background: 'linear-gradient(160deg,#0D1B2A 0%,#13263B 55%,#1E3A8A 130%)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 48 },
