@@ -1,0 +1,8 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:#0D1B2A; --ink2:#13263B; --blue:#2563EB; --blue2:#3B82F6;
+  --green:#10B981; --slate:#64748B; --bg:#F1F5F9; --line:#E2E8F0; --red:#EF4444;
+}
+html, body { height: 100%; }
+body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--ink); }
+input, button { font-family: inherit; }
